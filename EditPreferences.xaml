@@ -1,0 +1,36 @@
+﻿<Window x:Class="TaskJeeves.EditPreferences"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskJeeves"
+        mc:Ignorable="d"
+        Title="EditPreferences" Height="300" Width="500">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="*"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Label Grid.Row="0" Grid.Column="0" VerticalAlignment="Center">TFS URL:</Label>
+        <TextBox Grid.Row="0" Grid.Column="1" Text="{Binding TFSUrl, Mode=TwoWay}" VerticalAlignment="Center"/>
+        <Label Grid.Row="1" Grid.Column="0" VerticalAlignment="Center">TFS User:</Label>
+        <ComboBox Grid.Row="1" Grid.Column="1" Name="ddPrefUserNames" VerticalAlignment="Center" SelectedValue="{Binding TFSUser}" SelectionChanged="ddPrefUserNames_SelectionChanged"/>
+        <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="Refresh Interval:"></Label>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding TFSRefresh, Mode=TwoWay}" VerticalAlignment="Center" ToolTip="Number of Seconds Between Refresh of Data From TFS"/>
+        <Label Grid.Row="2" Grid.Column="0" VerticalAlignment="Center" Content="Refresh Interval:"></Label>
+        <TextBox Grid.Row="2" Grid.Column="1" Text="{Binding TFSRefresh, Mode=TwoWay}" VerticalAlignment="Center" ToolTip="Number of Minutes Between Refresh of Data From TFS"/>
+        <Label Grid.Row="3" Grid.Column="0" VerticalAlignment="Center" Content="Retention Period:"></Label>
+        <TextBox Grid.Row="3" Grid.Column="1" Name="txtPrefRetention"  Text="{Binding TFSRetention, Mode=TwoWay}" VerticalAlignment="Center" ToolTip="Number of Days Worth of Closed Items Displayed" KeyUp="txtPrefRetention_KeyUp"/>
+        <Label Grid.Row="4" Grid.Column="0" VerticalAlignment="Center" Content="Bug Timer:"></Label>
+        <TextBox Grid.Row="4" Grid.Column="1" Name="txtPrefBugTimer"  Text="{Binding BugTimer, Mode=TwoWay}" VerticalAlignment="Center" ToolTip="Number of Minutes Between Jeeves Bugging You"/>
+        <Button Grid.Row="5" Grid.ColumnSpan="2" Name="btnPrefSave" VerticalAlignment="Center" Margin="5" Click="btnPrefSave_Click">Save</Button>
+    </Grid>
+</Window>

@@ -1,0 +1,27 @@
+﻿<Window x:Class="TaskJeeves.BugWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskJeeves"
+        mc:Ignorable="d"
+        Title="Jeeves" Height="300" Width="600" Icon="Images/TaskJeevesIcon.ico">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Grid.RowSpan="3" Source="Images/Jeeves.png"/>
+        <TextBlock Grid.Column="1" Grid.ColumnSpan="3" Grid.Row="0" Name="txtJeevesGreeting" Text="Excuse me sir, but may I ask what you are working on?" FontSize="22" TextWrapping="Wrap" VerticalAlignment="Center"/>
+        <Button Name="btnBugOpenApp" Grid.Column="1" Grid.Row="1" Margin="10" Padding="10" Click="btnBugOpenApp_Click">Open TaskJeeves..</Button>
+        <Button Name="btnBugNewTask" Grid.Column="2" Grid.Row="1" Margin="10" Padding="10" Click="btnBugNewTask_Click">New Task..</Button>
+        <Button Name="btnBugIgnore" Grid.Column="3" Grid.Row="1" Margin="10" Padding="10" Click="btnBugIgnore_Click">Ignore</Button>
+    </Grid>
+</Window>

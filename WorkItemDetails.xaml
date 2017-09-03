@@ -1,0 +1,31 @@
+﻿<Window x:Class="TaskJeeves.WorkItemDetails"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskJeeves"
+        mc:Ignorable="d"
+        Title="WorkItemDetails" Height="600" Width="800" Closing="Window_Closing">
+    <Grid>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="*"/>
+        </Grid.ColumnDefinitions>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="*"/>
+            <RowDefinition Height="Auto" />
+        </Grid.RowDefinitions>
+        <ScrollViewer Grid.Column="0">
+            <ItemsControl Background="White" Name="icDetailTasks" MouseDown="icDetailTasks_MouseDown">
+                <ItemsControl.ItemTemplate>
+                    <DataTemplate>
+                        <local:TaskControl />
+                    </DataTemplate>
+                </ItemsControl.ItemTemplate>
+            </ItemsControl>
+        </ScrollViewer>
+        <Button Name="btnNewLink" Grid.Row="1" Grid.Column="0" Click="btnNewLink_Click">New Linked Item</Button>
+        <local:TaskEditor Grid.Column="1" Grid.Row="0" x:Name="detailTaskEditor"/>
+        <Button Grid.Column="1" Grid.Row="1" Name="btnSaveDetail" Click="btnSaveDetail_Click">Save</Button>
+    </Grid>
+</Window>

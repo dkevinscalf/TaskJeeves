@@ -1,0 +1,22 @@
+﻿<UserControl x:Class="TaskJeeves.AttachmentControl"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:TaskJeeves"
+             mc:Ignorable="d" 
+             d:DesignHeight="50" d:DesignWidth="300">
+    <Grid Background="White" MouseDown="Grid_MouseDown">
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="*"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+        </Grid.ColumnDefinitions>
+        <Image Grid.Column="0" Source="Images/attachment.png" />
+        <Label Grid.Column="1" FontSize="18" VerticalAlignment="Center" Content="{Binding FileName}"></Label>
+        <Button Grid.Column="2" Name="btnOpenAttachment" VerticalAlignment="Center" Margin="5" Click="btnOpenAttachment_Click">Open</Button>
+        <Button Grid.Column="3" Name="btnDeleteAttachment" VerticalAlignment="Center" Margin="5" Background="#FFB60707" Foreground="#FFFDFCFC" Click="btnDeleteAttachment_Click">Delete</Button>
+    </Grid>
+</UserControl>
+

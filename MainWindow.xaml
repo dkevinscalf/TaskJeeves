@@ -1,0 +1,238 @@
+﻿<Window x:Class="TaskJeeves.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:TaskJeeves"
+        mc:Ignorable="d"
+        Title="MainWindow" Height="600" Width="800" Icon="Images/TaskJeevesIcon.ico" Closing="Window_Closing">
+    <DockPanel>
+        <Menu DockPanel.Dock="Top">
+            <MenuItem Header="_New">
+                <MenuItem Header="_Task.." Name="menuNewTask" Click="menuNewTask_Click"/>
+                <MenuItem Header="_Bug.." Name="menuNewBug" Click="menuNewBug_Click"/>
+                <MenuItem Header="_User Story.." Name="menuNewUserStory" Click="menuNewUserStory_Click"/>
+            </MenuItem>
+            <MenuItem Header="_Tools">
+                <MenuItem Name="menuPreferences" Header="_Preferences.." Click="menuPreferences_Click"/>
+                <MenuItem Name="menuBugMe" Header="_Bug Me" IsCheckable="True" IsChecked="True" Click="menuBugMe_Click" />
+            </MenuItem>
+        </Menu>
+        <Grid DockPanel.Dock="Bottom">
+            <Grid.RowDefinitions>
+                <RowDefinition Height="*"/>
+                <RowDefinition Height="Auto"/>
+            </Grid.RowDefinitions>
+            <TabControl Grid.Row="0">
+                <TabItem Header="AllTasks">
+                    <ScrollViewer>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition  Height="Auto"/>
+                                <RowDefinition  Height="Auto"/>
+                                <RowDefinition  Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition  Width="*"/>
+                                <ColumnDefinition  Width="*"/>
+                                <ColumnDefinition  Width="*"/>
+                            </Grid.ColumnDefinitions>
+                            <ComboBox Name="cbArea" Grid.Row="0" SelectedIndex="0"  SelectionChanged="cbArea_SelectionChanged"></ComboBox>
+                            <TextBlock Grid.Row="1" Grid.Column="0" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left">New</TextBlock>
+                            <ItemsControl Background="White" Name="icNewTaskList" Grid.Row="2" Grid.Column="0" AllowDrop="True" PreviewMouseLeftButtonDown="generic_PreviewMouseLeftButtonDown" MouseMove="icNewTaskList_MouseMove" Drop="icNewTaskList_Drop">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:TaskControl />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBlock Grid.Row="1" Grid.Column="1" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left">Active</TextBlock>
+                            <ItemsControl Background="White" Name="icActiveTaskList" Grid.Row="2" Grid.Column="1" AllowDrop="True" MouseMove="icActiveTaskList_MouseMove" PreviewMouseLeftButtonDown="generic_PreviewMouseLeftButtonDown" Drop="icActiveTaskList_Drop">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:TaskControl />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                            <TextBlock Grid.Row="1" Grid.Column="2" FontWeight="Bold" FontSize="20" HorizontalAlignment="Left">Complete</TextBlock>
+                            <ItemsControl Background="White" Name="icCompleteTaskList" Grid.Row="2" Grid.Column="2" AllowDrop="True" Drop="icCompleteTaskList_Drop" PreviewMouseLeftButtonDown="generic_PreviewMouseLeftButtonDown" MouseMove="icCompleteTaskList_MouseMove" >
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:TaskControl />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </Grid>
+                    </ScrollViewer>
+                </TabItem>
+                <TabItem Header="Planning">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <ScrollViewer Grid.Row="1" Grid.Column="0" >
+                            <ItemsControl Background="White" Name="icPlanningUserStories" MouseUp="icPlanningUserStories_MouseUp" >
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:TaskControl />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer>
+                        <ScrollViewer Grid.Row="1" Grid.Column="1" >
+                            <ItemsControl Background="White" Name="icPlanningTasks" MouseUp="icPlanningTasks_MouseUp">
+                                <ItemsControl.ItemTemplate>
+                                    <DataTemplate>
+                                        <local:TaskControl />
+                                    </DataTemplate>
+                                </ItemsControl.ItemTemplate>
+                            </ItemsControl>
+                        </ScrollViewer >
+                        <Grid Grid.Row="1" Grid.Column="2">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="Auto"/>
+                            </Grid.RowDefinitions>
+                            <Grid Grid.Row="0">
+                                <Grid.RowDefinitions>
+                                    <RowDefinition Height="Auto"/>
+                                    <RowDefinition Height="Auto"/>
+                                </Grid.RowDefinitions>
+                                <Grid.ColumnDefinitions>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                    <ColumnDefinition Width="*"/>
+                                </Grid.ColumnDefinitions>
+                                <Label Grid.Row="0" Grid.Column="0" Grid.ColumnSpan="8" HorizontalAlignment="Center">Quick Estimate</Label>
+                                <Button Grid.Row="1" Grid.Column="0" Click="EstimateButton_Click">0.25</Button>
+                                <Button Grid.Row="1" Grid.Column="1" Click="EstimateButton_Click">0.5</Button>
+                                <Button Grid.Row="1" Grid.Column="2" Click="EstimateButton_Click">1</Button>
+                                <Button Grid.Row="1" Grid.Column="3" Click="EstimateButton_Click">2</Button>
+                                <Button Grid.Row="1" Grid.Column="4" Click="EstimateButton_Click">4</Button>
+                                <Button Grid.Row="1" Grid.Column="5" Click="EstimateButton_Click">8</Button>
+                                <Button Grid.Row="1" Grid.Column="6" Click="EstimateButton_Click">16</Button>
+                                <Button Grid.Row="1" Grid.Column="7" Click="EstimateButton_Click">32</Button>
+                            </Grid>
+                            <local:TaskEditor Grid.Row="1" x:Name="planningTaskEditor" />
+                            <Button Grid.Row="2" Name="btnSaveTask" Click="btnSaveTask_Click">Save</Button>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Mass Move">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width ="*"/>
+                            <ColumnDefinition Width ="Auto"/>
+                        </Grid.ColumnDefinitions>
+                        <ScrollViewer Grid.Column="0">
+                            <DataGrid Name="dgMoveTasks" AutoGenerateColumns="False" SelectionChanged="dgMoveTasks_SelectionChanged">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header ="Type" Binding="{Binding Type}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="ID" Binding="{Binding ID}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="Title" Binding="{Binding Title}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="Iteration" Binding="{Binding Iteration}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="Area" Binding="{Binding Area}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="Assigned To" Binding="{Binding AssignedTo}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="State" Binding="{Binding State}"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </ScrollViewer>
+                        <Grid Grid.Column="1">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <StackPanel Grid.Row="0" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Label Margin="50,0">Iteration:</Label>
+                                <ComboBox Name="ddMassMoveIterations"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="1" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Label Margin="50,0">Area:</Label>
+                                <ComboBox Name="ddMassMoveAreas"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="2" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Label Margin="50,0">Assigned To:</Label>
+                                <ComboBox Name="ddMassMoveUsers"/>
+                            </StackPanel>
+                            <StackPanel Grid.Row="3" HorizontalAlignment="Center" VerticalAlignment="Center">
+                                <Label Margin="50,0">State:</Label>
+                                <ComboBox Name="ddMassMoveStates"/>
+                            </StackPanel>
+                            <Button Grid.Row="4"  Name="btnMassMoveSubmit" Margin="10,40" Click="btnMassMoveSubmit_Click">Submit</Button>
+                        </Grid>
+                    </Grid>
+                </TabItem>
+                <TabItem Header="Iteration Copy">
+                    <Grid>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="*"/>
+                            <ColumnDefinition Width="*"/>
+                        </Grid.ColumnDefinitions>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="Auto"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="0" Grid.Column="0">
+                            <Label>Source:</Label>
+                            <ComboBox Width="200" Name="ddIterationCopySource" SelectionChanged="ddIterationCopySource_SelectionChanged" />
+                        </StackPanel>
+                        <StackPanel HorizontalAlignment="Center" Orientation="Horizontal" Grid.Row="0" Grid.Column="1">
+                            <Label>Destination:</Label>
+                            <ComboBox Width="200" Name="ddIterationCopyDestination" />
+                        </StackPanel>
+                        <ScrollViewer Grid.Row="1" Grid.ColumnSpan="2">
+                            <DataGrid Name="dgIterationCopyTasks" AutoGenerateColumns="False">
+                                <DataGrid.Columns>
+                                    <DataGridTextColumn Header ="Type" Binding="{Binding Type}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="ID" Binding="{Binding ID}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="Title" Binding="{Binding Title}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="Iteration" Binding="{Binding Iteration}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="Area" Binding="{Binding Area}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="Assigned To" Binding="{Binding AssignedTo}"></DataGridTextColumn>
+                                    <DataGridTextColumn Header ="State" Binding="{Binding State}"></DataGridTextColumn>
+                                </DataGrid.Columns>
+                            </DataGrid>
+                        </ScrollViewer>
+                        <Button Name="btnCopyIteration" Grid.Row="2" Grid.ColumnSpan="2" Click="btnCopyIteration_Click">Copy Tasks</Button>
+                    </Grid>
+                </TabItem>
+                <TabItem Name="tiQueue" Header="Queue">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="Auto"/>
+                        </Grid.RowDefinitions>
+                        <ListBox Grid.Row="0" Name="lbUpdateQueue">
+                            <ListBox.ItemTemplate>
+                                <DataTemplate>
+                                    <StackPanel Orientation="Horizontal">
+                                        <Label Content="{Binding ID}" />
+                                        <Label Content="{Binding UpdateDescription}" />
+                                    </StackPanel>
+                                </DataTemplate>
+                            </ListBox.ItemTemplate>
+                        </ListBox>
+                    </Grid>
+                </TabItem>
+            </TabControl>
+            <ProgressBar Name="prgQueueBar" Grid.Row="1" Height="25"></ProgressBar>
+        </Grid>
+    </DockPanel>
+    
+</Window>
