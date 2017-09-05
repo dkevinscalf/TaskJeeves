@@ -163,68 +163,78 @@ namespace TaskJeeves
             {
                 while (true)
                 {
-                    mainWindow.UpdateQueueProgress(0, 0);
-                    if (UpdateQueue.Count > 0)
+                    try
                     {
-                        if (UpdateQueue[0].IsReadRequest)
+                        mainWindow.UpdateQueueProgress(0, 0);
+                        if (UpdateQueue.Count > 0)
                         {
-                            mainWindow.UpdateQueueProgress(-1, 1);
-                            var workItems = GetAllWorkItems();
-                            mainWindow.UpdateQueueProgress(0, workItems.Count);
-
-                            var tasks = new ObservableCollection<DisplayTask>();
-
-                            var i = 0;
-
-                            foreach (WorkItem workItem in workItems)
+                            if (UpdateQueue[0].IsReadRequest)
                             {
-                                var newTask = new DisplayTask(workItem);
-                                newTask.LinkedTasks = GetRelatedWorkItems(workItem);
-                                tasks.Add(newTask);
-                                i++;
-                                mainWindow.UpdateQueueProgress(i, workItems.Count);
-                            }
+                                mainWindow.UpdateQueueProgress(-1, 1);
+                                var workItems = GetAllWorkItems();
+                                mainWindow.UpdateQueueProgress(0, workItems.Count);
 
-                            mainWindow.ReloadTasks(tasks);
-                            mainWindow.UpdateQueueProgress(0, 0);
+                                var tasks = new ObservableCollection<DisplayTask>();
 
-                            lastRefresh = DateTime.Now;
-                        }
-                        else
-                        {
-                            mainWindow.UpdateQueueProgress(-1, 1);
-                            
-                            var savedCorrectly = SaveWorkItem(UpdateQueue[0]);
+                                var i = 0;
 
-                            if (!savedCorrectly)
-                            {
+                                foreach (WorkItem workItem in workItems)
+                                {
+                                    var newTask = new DisplayTask(workItem);
+                                    //newTask.LinkedTasks = GetRelatedWorkItems(workItem);
+                                    tasks.Add(newTask);
+                                    i++;
+                                    mainWindow.UpdateQueueProgress(i, workItems.Count);
+                                }
+
+                                mainWindow.ReloadTasks(tasks);
                                 mainWindow.UpdateQueueProgress(0, 0);
-                                return;
+
+                                lastRefresh = DateTime.Now;
+                            }
+                            else
+                            {
+                                mainWindow.UpdateQueueProgress(-1, 1);
+
+                                var savedCorrectly = SaveWorkItem(UpdateQueue[0]);
+
+                                if (!savedCorrectly)
+                                {
+                                    mainWindow.UpdateQueueProgress(0, 0);
+                                    return;
+                                }
+
+                                if (UpdateQueue[0].DisplayTask != null)
+                                {
+                                    if (!AllTasks.Contains(UpdateQueue[0].DisplayTask))
+                                    {
+                                        if (mainWindow != null)
+                                            mainWindow.AddTaskFromThread(UpdateQueue[0].DisplayTask);
+                                    }
+                                    else
+                                    {
+                                        mainWindow.FilterTasksFromThread();
+                                    }
+                                }
+                                mainWindow.UpdateQueueProgress(0, 0);
                             }
 
                             if (UpdateQueue[0].DisplayTask != null)
-                            {
-                                if (!AllTasks.Contains(UpdateQueue[0].DisplayTask))
-                                {
-                                    if (mainWindow != null)
-                                        mainWindow.AddTaskFromThread(UpdateQueue[0].DisplayTask);
-                                }
-                                else
-                                {
-                                    mainWindow.FilterTasksFromThread();
-                                }
-                            }
-                            mainWindow.UpdateQueueProgress(0, 0);
-                        }
+                                UpdateQueue[0].DisplayTask.NotifyPropertyChanged("ID");
 
-                        if(UpdateQueue[0].DisplayTask != null)
-                            UpdateQueue[0].DisplayTask.NotifyPropertyChanged("ID");
-                        
-                        UpdateQueue.RemoveAtOnUI(0);
+                            UpdateQueue.RemoveAtOnUI(0);
+                        }
+                        else if ((DateTime.Now - lastRefresh).Seconds >
+                                 Convert.ToInt32(ConfigurationManager.AppSettings["TFSUpdateInterval"])*60)
+                        {
+                            UpdateQueue.AddOnUI(new TaskUpdate {ID = -1, IsReadRequest = true});
+                        }
                     }
-                    else if ((DateTime.Now - lastRefresh).Seconds > Convert.ToInt32(ConfigurationManager.AppSettings["TFSUpdateInterval"]) * 60)
+                    catch (Exception ex)
                     {
-                        UpdateQueue.AddOnUI(new TaskUpdate {ID = -1, IsReadRequest = true});
+                        MessageBox.Show(
+                            "An error was encountered. Whatever you were doing may have to be reattempted. \n" +
+                            ex.Message);
                     }
                     Thread.Sleep(1000);
                 }

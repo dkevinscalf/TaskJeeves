@@ -61,7 +61,7 @@ namespace TaskJeeves
                 prgLoadingBar.Value++;
 
                 var newTask = new DisplayTask(workItem);
-                newTask.LinkedTasks = WIC.GetRelatedWorkItems(workItem);
+                //newTask.LinkedTasks = WIC.GetRelatedWorkItems(workItem);
                 tasks.Add(newTask);
 
                 await Task.Delay(1);

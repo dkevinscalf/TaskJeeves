@@ -371,6 +371,7 @@ namespace TaskJeeves
             }
             else
             {
+                PlanningSelectedUserStory.LinkedTasks = WIC.GetRelatedWorkItems(PlanningSelectedUserStory.workItem);
                 icPlanningTasks.ItemsSource = PlanningSelectedUserStory.LinkedTasks;
             }
         }
@@ -606,14 +607,14 @@ namespace TaskJeeves
 
         private void menuNewBug_Click(object sender, RoutedEventArgs e)
         {
-            var newTask = new DisplayTask("Task") {Title = "New Bug" };
+            var newTask = new DisplayTask("Bug") {Title = "New Bug" };
             var detailWindow = new WorkItemDetails(newTask);
             detailWindow.Show();
         }
 
         private void menuNewUserStory_Click(object sender, RoutedEventArgs e)
         {
-            var newTask = new DisplayTask("Task") {Title = "New User Story" };
+            var newTask = new DisplayTask("User Story") {Title = "New User Story" };
             var detailWindow = new WorkItemDetails(newTask);
             detailWindow.Show();
         }

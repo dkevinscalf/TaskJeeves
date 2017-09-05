@@ -28,6 +28,8 @@ namespace TaskJeeves
 
             WIC = Application.Current.Properties["WIC"] as WorkItemController;
 
+            root.LinkedTasks = WIC.GetRelatedWorkItems(root.workItem);
+
             var tasks = new ObservableCollection<DisplayTask>(root.LinkedTasks);
 
             tasks.Insert(0,root);
